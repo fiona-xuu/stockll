@@ -80,7 +80,7 @@ export default function StockScreen() {
 
   const [{ data: stockData, error: stockError, fetching: stockFetching }, getStockData] = useGlobalAction(api.getStockData);
   const [{ data: newsData, error: newsError, fetching: newsFetching }, getStockNews] = useGlobalAction(api.getStockNews);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([
@@ -145,7 +145,7 @@ export default function StockScreen() {
       </section>
 
       {/* TradingView Widget Section */}
-      <section className={`w-full h-[600px] ${stockFetching ? "opacity-50" : ""}`}>
+      <section className={`w-full h-[650px] ${stockFetching ? "opacity-50" : ""}`}>
         <TradingViewWidget symbol={symbol} />
       </section>
 
@@ -153,7 +153,7 @@ export default function StockScreen() {
       <section>
         <Card>
           <CardHeader>
-            <CardTitle>Latest News</CardTitle>
+            <CardTitle className="text-2xl font-bold">Latest News</CardTitle>
           </CardHeader>
           <CardContent>
             {newsFetching && !newsData ? (
@@ -164,32 +164,37 @@ export default function StockScreen() {
               <div className="flex items-center justify-center h-24">
                 <p className="text-lg text-red-500">Error loading news: {newsError.message}</p>
               </div>
-            ) : newsData?.result ? (
+            ) : newsData?.article ? (
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">
-                  {newsData.result.headline}
-                </h3>
+                <h3 className="text-lg font-semibold">{newsData.article.title}</h3>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>
-                    {new Date(newsData.result.datetime * 1000).toLocaleDateString()} 
-                  </span>
+                  <span>{new Date(newsData.article.datetime).toLocaleDateString()}</span>
                   <span>•</span>
                   <span>
-                    Sentiment: 
-                    <span className={`ml-1 font-medium ${
-                      newsData.result.sentiment > 0.2 ? "text-green-500" :
-                      newsData.result.sentiment < -0.2 ? "text-red-500" :
-                      "text-yellow-500"
-                    }`}>
-                      {newsData.result.sentiment > 0.2 ? "Positive" :
-                       newsData.result.sentiment < -0.2 ? "Negative" :
-                       "Neutral"}
+                    Sentiment:
+                    <span
+                      className={`ml-1 font-medium ${newsData.sentiment.score > 0 ? "text-green-500" :
+                        newsData.sentiment.score < 0 ? "text-red-500" : "text-yellow-500"
+                        }`}
+                    >
+                      {newsData.sentiment.interpretation}
                     </span>
                   </span>
                 </div>
-                <p className="text-sm">{newsData.result.summary}</p>
+                <p className="text-sm">{newsData.article.summary}</p>
+                {/* Sentiment impact message */}
+                {newsData.sentiment.score > 0 && (
+                  <p className="text-sm text-green-500">
+                    This positive sentiment may be a cause of an increase in stock price.
+                  </p>
+                )}
+                {newsData.sentiment.score < 0 && (
+                  <p className="text-sm text-red-500">
+                    This negative sentiment may be a cause of a decrease in stock price.
+                  </p>
+                )}
                 <Button variant="outline" asChild>
-                  <a href={newsData.result.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  <a href={newsData.article.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     Read Full Article <ExternalLink className="h-4 w-4" />
                   </a>
                 </Button>
@@ -198,6 +203,8 @@ export default function StockScreen() {
           </CardContent>
         </Card>
       </section>
+
+
     </div>
   );
 }

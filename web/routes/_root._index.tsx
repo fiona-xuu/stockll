@@ -30,16 +30,6 @@ export default function() {
           </svg>
           <h1 className="text-xl font-bold">STOCKL</h1>
         </div>
-        <div className="flex justify-center w-[560px] px-4">
-          <div className="relative w-full max-w-[480px]">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="quick search"
-              className="pl-10 pr-4 py-2 rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none w-full"
-            />
-          </div>
-        </div>
         <div className="flex items-center space-x-4 w-[180px] justify-end flex-shrink-0">
           <Link to="/sign-in" className="text-white hover:underline">Log In</Link>
           <Link to="/sign-up" className="bg-white text-gray-900 px-4 py-2 rounded hover:bg-gray-200">SIGN UP</Link>

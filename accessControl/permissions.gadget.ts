@@ -56,18 +56,41 @@ export const permissions: GadgetPermissions = {
     unauthenticated: {
       storageKey: "unauthenticated",
       models: {
+        invite: {
+          read: true,
+          actions: {
+            create: true,
+            delete: true,
+            resend: true,
+          },
+        },
+        session: {
+          read: true,
+        },
+        subscribedStocks: {
+          read: true,
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         user: {
+          read: true,
           actions: {
             resetPassword: true,
             sendResetPassword: true,
             sendVerifyEmail: true,
             signIn: true,
             signUp: true,
+            update: true,
             verifyEmail: true,
           },
         },
       },
       actions: {
+        getStockData: true,
+        getStockNews: true,
         searchStocks: true,
       },
     },
