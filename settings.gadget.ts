@@ -9,7 +9,7 @@ export const settings: GadgetSettings = {
         redirectOnSignIn: "/dashboard",
         signInPath: "/sign-in",
         unauthorizedUserRedirect: "signInPath",
-        defaultSignedInRoles: ["signed-in"],
+        defaultSignedInRoles: ["signed-in", "unauthenticated"],
       },
       methods: {
         emailPassword: true,
